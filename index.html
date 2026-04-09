@@ -3,42 +3,720 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Name – GIS Portfolio</title>
+  <title>Addison Bugas — GIS Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    body { font-family: Georgia, serif; max-width: 900px; margin: 0 auto; padding: 2rem; color: #222; }
-    h1 { font-size: 2.5rem; }
-    h2 { border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
-    img { max-width: 100%; border: 1px solid #ddd; margin: 1rem 0; }
-    nav a { margin-right: 1.5rem; text-decoration: none; color: #0057b8; }
-    .project { margin-bottom: 3rem; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sage:    #7A9E7E;
+      --sage-lt: #B8CEBC;
+      --sage-dk: #3E5C42;
+      --sand:    #E8E0D0;
+      --sand-dk: #C9BEA8;
+      --bark:    #2C2118;
+      --bark-lt: #4A3828;
+      --cream:   #F7F3EC;
+      --white:   #FDFCFA;
+      --accent:  #B85C38;
+      --accent-lt: #D4896A;
+      --mono: 'DM Mono', monospace;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'Instrument Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--bark);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: var(--cream);
+      border-bottom: 1px solid var(--sand-dk);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage-dk);
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--bark-lt);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--sage-dk); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4rem 6rem 5rem;
+      background: var(--white);
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 1.2rem;
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--bark);
+      margin-bottom: 0.5rem;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--sage-dk);
+    }
+    .hero-subtitle {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--bark-lt);
+      max-width: 440px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--sage-dk);
+      color: var(--cream);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 2px;
+      transition: background 0.25s, transform 0.2s;
+      align-self: flex-start;
+    }
+    .hero-cta:hover { background: var(--bark); transform: translateY(-2px); }
+
+    .hero-right {
+      background: var(--sage-dk);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        rgba(255,255,255,0.04) 39px,
+        rgba(255,255,255,0.04) 40px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 39px,
+        rgba(255,255,255,0.04) 39px,
+        rgba(255,255,255,0.04) 40px
+      );
+    }
+    .hero-map-label {
+      position: relative;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sage-lt);
+      margin-bottom: 0.5rem;
+    }
+    .hero-stat-row {
+      position: relative;
+      display: flex;
+      gap: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 1.5rem;
+    }
+    .hero-stat { flex: 1; }
+    .hero-stat-num {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      color: var(--white);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage-lt);
+      margin-top: 0.3rem;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 6rem 5rem; }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.1;
+      color: var(--bark);
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--bark-lt);
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag-group { margin-bottom: 2rem; }
+    .tag-group-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.8rem;
+      border-bottom: 1px solid var(--sand-dk);
+      padding-bottom: 0.4rem;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      padding: 0.35rem 0.8rem;
+      border: 1px solid var(--sand-dk);
+      border-radius: 2px;
+      color: var(--bark-lt);
+      background: var(--cream);
+      letter-spacing: 0.03em;
+    }
+    .tag.accent {
+      border-color: var(--sage);
+      color: var(--sage-dk);
+      background: rgba(122,158,126,0.08);
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--cream); }
+    .exp-card {
+      border: 1px solid var(--sand-dk);
+      border-radius: 4px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--white);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .exp-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(44,33,24,0.07);
+    }
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .exp-title {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--bark);
+    }
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--sage);
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      margin-left: 1rem;
+      padding-top: 0.3rem;
+    }
+    .exp-org {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .exp-bullets { list-style: none; }
+    .exp-bullets li {
+      font-size: 0.95rem;
+      color: var(--bark-lt);
+      line-height: 1.7;
+      padding-left: 1.2rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--sage);
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bark); }
+    #projects .section-label { color: var(--sage-lt); }
+    #projects .section-title { color: var(--white); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--bark-lt);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--sage);
+    }
+    .project-thumb {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-thumb-delta { background: var(--sage-dk); }
+    .project-thumb-wetland { background: #2A4A3A; }
+    .project-thumb-wwf { background: #1A2E4A; }
+    .project-thumb svg { width: 100%; height: 100%; }
+
+    .project-thumb-label {
+      position: absolute;
+      bottom: 1rem;
+      left: 1rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+    }
+    .project-body { padding: 1.5rem; }
+    .project-type {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sage-lt);
+      margin-bottom: 0.5rem;
+    }
+    .project-name {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: 0.7rem;
+    }
+    .project-desc {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .project-tool {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid rgba(122,158,126,0.35);
+      border-radius: 2px;
+      color: var(--sage-lt);
+    }
+    .project-link {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--accent-lt);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--white); }
+    .project-link::after { content: '→'; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bark);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 2.5rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-name {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+    .footer-contact {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--sage-lt);
+      text-align: right;
+      line-height: 1.9;
+    }
+    .footer-contact a {
+      color: var(--sage-lt);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--white); }
+
+    /* ── FADE-IN ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { min-height: 280px; }
+      section { padding: 4rem 2rem; }
+      #about { grid-template-columns: 1fr; gap: 3rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-contact { text-align: center; }
+    }
   </style>
 </head>
 <body>
 
-  <h1>Your Name</h1>
-  <p>Cartography, GIS Analysis & Web Mapping</p>
-
   <nav>
-    <a href="#about">About</a>
-    <a href="#portfolio">Portfolio</a>
+    <span class="nav-logo">Addison Bugas</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="mailto:addisonrbugas@berkeley.edu">Contact</a></li>
+    </ul>
   </nav>
 
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">GIS Portfolio · UC Berkeley 2026</p>
+      <h1 class="hero-name">Addison<br><em>Bugas</em></h1>
+      <p class="hero-subtitle">Geospatial Analysis · Cartography · Conservation</p>
+      <p class="hero-desc">
+        I use satellite imagery, spatial data, and maps to study how landscapes change — from the Sacramento–San Joaquin Delta to restored wetlands to global conservation communications.
+      </p>
+      <a href="#projects" class="hero-cta">View my work</a>
+    </div>
+    <div class="hero-right">
+      <p class="hero-map-label">Current focus area</p>
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <div class="hero-stat-num">3.9</div>
+          <div class="hero-stat-label">GPA</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">17+</div>
+          <div class="hero-stat-label">States analyzed</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">4+</div>
+          <div class="hero-stat-label">GIS platforms</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
   <section id="about">
-    <h2>About Me</h2>
-    <p>Write 2–3 sentences about your background, tools you use (ArcGIS, QGIS, Python, R, etc.), and the kinds of problems you like to solve with spatial data.</p>
+    <div class="about-text fade-up">
+      <p class="section-label">About me</p>
+      <h2 class="section-title">Mapping the<br><em style="font-family:var(--serif);font-style:italic">natural world</em></h2>
+      <p>
+        I'm a Conservation and Resource Studies student at UC Berkeley (Rausser College Honors Program, GPA 3.9), graduating May 2026 with a Geospatial Information Science & Technology minor. My work sits at the intersection of environmental science, spatial analysis, and policy.
+      </p>
+      <p>
+        My honors research uses satellite imagery and GIS to analyze climate and land-use-driven change in the Sacramento–San Joaquin Delta — processing multi-temporal imagery in ArcGIS Pro to identify landscape patterns and environmental trends.
+      </p>
+      <p>
+        At WWF, I designed interactive StoryMaps and geospatial dashboards to communicate conservation data to global stakeholders. I'm drawn to problems where spatial thinking unlocks insight that other methods miss.
+      </p>
+    </div>
+    <div class="about-sidebar fade-up">
+      <div class="tag-group">
+        <div class="tag-group-label">Coursework</div>
+        <div class="tags">
+          <span class="tag">Remote Sensing</span>
+          <span class="tag">Cartographic Representation</span>
+          <span class="tag">Landscape Metrics</span>
+          <span class="tag">Ecological Analysis</span>
+          <span class="tag">Climate Economics</span>
+          <span class="tag">Public Health Maps</span>
+          <span class="tag">Spatial Analysis for Health Equity</span>
+          <span class="tag">Climate and Energy Policy</span>
+        </div>
+      </div>
+      <div class="tag-group">
+        <div class="tag-group-label">Technical skills</div>
+        <div class="tags">
+          <span class="tag accent">ArcGIS Pro · Advanced</span>
+          <span class="tag accent">QGIS · Advanced</span>
+          <span class="tag accent">Google Earth Engine</span>
+          <span class="tag accent">Python</span>
+          <span class="tag accent">ArcGIS Online</span>
+          <span class="tag accent">StoryMaps</span>
+        </div>
+      </div>
+      <div class="tag-group">
+        <div class="tag-group-label">Interests</div>
+        <div class="tags">
+          <span class="tag">Environmental Planning</span>
+          <span class="tag">Conservation</span>
+          <span class="tag">Climate Resilience</span>
+          <span class="tag">Land Use Planning</span>
+          <span class="tag">Environmental Justice</span>
+          <span class="tag">Cartographic Design</span>
+          <span class="tag">Sustainable Infrastructure</span>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="portfolio">
-    <h2>Portfolio</h2>
-
-    <div class="project">
-      <h3>Project Title</h3>
-      <p>Describe what the map shows, what data you used, and what tools/methods you applied.</p>
-      <img src="images/my-map.png" alt="Description of map" />
-      <p><a href="#">View interactive map</a> | <a href="#">View code on GitHub</a></p>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="fade-up">
+      <p class="section-label">Experience</p>
+      <h2 class="section-title">Where I've applied<br><em style="font-family:var(--serif);font-style:italic">spatial thinking</em></h2>
     </div>
 
+    <div class="exp-card fade-up">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Honors Researcher</div>
+          <div class="exp-org">Rausser College Honors Program · UC Berkeley</div>
+        </div>
+        <div class="exp-date">Aug 2025 – Present</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Leading an independent project using satellite imagery and GIS to analyze climate and land-use-driven change in the Sacramento–San Joaquin Delta</li>
+        <li>Processing geospatial data and satellite imagery in ArcGIS Pro to identify landscape patterns and environmental trends</li>
+        <li>Managing project timelines while synthesizing academic literature to refine research questions and methods</li>
+      </ul>
+    </div>
+
+    <div class="exp-card fade-up">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Enterprise Geospatial Intern</div>
+          <div class="exp-org">World Wildlife Fund (WWF) · Remote</div>
+        </div>
+        <div class="exp-date">Jun – Aug 2025</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Designed a comprehensive StoryMap using ESRI ArcGIS Online, incorporating interactive maps, dashboards, and embedded media to communicate organizational data to stakeholders</li>
+        <li>Built the team's internal SharePoint site with user-friendly pages and integrated Excel for improved data organization</li>
+        <li>Created and distributed a quarterly newsletter reaching hundreds of staff via Google Sites and Mailchimp</li>
+        <li>Collaborated cross-functionally in a remote team to execute long-term, multi-stakeholder deliverables on schedule</li>
+      </ul>
+    </div>
   </section>
 
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="fade-up">
+      <p class="section-label">Selected projects</p>
+      <h2 class="section-title">Maps &amp; analyses</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card fade-up">
+        <div class="project-thumb project-thumb-delta">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="200" fill="#3E5C42"/>
+            <path d="M200 200 Q180 160 160 130 Q140 100 120 90 Q100 80 80 70" stroke="rgba(120,180,160,0.5)" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M200 200 Q210 155 230 130 Q250 105 270 85 Q290 65 310 55" stroke="rgba(120,180,160,0.4)" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M200 200 Q195 150 200 110 Q205 70 210 40" stroke="rgba(120,180,160,0.5)" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M200 200 Q170 170 150 150 Q130 130 110 120 Q90 110 70 115" stroke="rgba(100,160,140,0.3)" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M200 200 Q230 165 255 145 Q280 125 300 120 Q320 115 340 120" stroke="rgba(100,160,140,0.3)" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <line x1="0" y1="50" x2="400" y2="50" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="0" y1="100" x2="400" y2="100" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="100" y1="0" x2="100" y2="200" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="200" y1="0" x2="200" y2="200" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <line x1="300" y1="0" x2="300" y2="200" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          </svg>
+          <span class="project-thumb-label">Sacramento–San Joaquin Delta</span>
+        </div>
+        <div class="project-body">
+          <p class="project-type">Satellite Analysis · Honors Research</p>
+          <h3 class="project-name">Delta Landscape Change Detection</h3>
+          <p class="project-desc">
+            Analyzing climate and land-use-driven landscape change in the Sacramento–San Joaquin Delta using multi-temporal satellite imagery and GIS to identify environmental trends across a critical California estuary.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">ArcGIS Pro</span>
+            <span class="project-tool">Remote Sensing</span>
+            <span class="project-tool">Satellite Imagery</span>
+          </div>
+          <a href="#" class="project-link">View project</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-thumb project-thumb-wetland">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="200" fill="#2A4A3A"/>
+            <ellipse cx="100" cy="100" rx="70" ry="40" fill="rgba(60,120,80,0.5)"/>
+            <ellipse cx="220" cy="80" rx="90" ry="50" fill="rgba(50,100,70,0.4)"/>
+            <ellipse cx="330" cy="130" rx="60" ry="45" fill="rgba(40,110,75,0.45)"/>
+            <ellipse cx="150" cy="155" rx="80" ry="30" fill="rgba(55,115,80,0.35)"/>
+            <path d="M0 120 Q50 110 100 125 Q150 140 200 130 Q260 118 320 135 Q360 145 400 140" stroke="rgba(80,150,170,0.5)" stroke-width="6" fill="none"/>
+            <path d="M0 80 Q80 75 140 88 Q200 100 250 88 Q310 74 400 82" stroke="rgba(80,150,170,0.3)" stroke-width="3" fill="none"/>
+            <circle cx="110" cy="90" r="5" fill="rgba(200,230,100,0.7)"/>
+            <circle cx="220" cy="70" r="4" fill="rgba(200,230,100,0.6)"/>
+            <circle cx="310" cy="115" r="5" fill="rgba(200,230,100,0.7)"/>
+            <circle cx="175" cy="145" r="3" fill="rgba(200,230,100,0.5)"/>
+          </svg>
+          <span class="project-thumb-label">Restored wetland habitats</span>
+        </div>
+        <div class="project-body">
+          <p class="project-type">Fieldwork · Ecological Monitoring</p>
+          <h3 class="project-name">Wetland Biodiversity &amp; Carbon Assessment</h3>
+          <p class="project-desc">
+            Ecological fieldwork and biological monitoring in restored wetland habitats, evaluating biodiversity recovery and carbon sequestration outcomes using drone deployment and acoustic bird population monitoring.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">Drone Deployment</span>
+            <span class="project-tool">Acoustic Monitoring</span>
+            <span class="project-tool">Field Survey</span>
+          </div>
+          <a href="#" class="project-link">View project</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-thumb project-thumb-wwf">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="200" fill="#1A2E4A"/>
+            <path d="M60 70 Q80 60 100 65 Q120 70 130 80 Q125 100 110 105 Q90 110 70 100 Q55 90 60 70Z" fill="rgba(80,140,200,0.35)"/>
+            <path d="M95 120 Q110 115 120 125 Q125 145 115 160 Q100 168 88 155 Q82 140 85 128Z" fill="rgba(80,140,200,0.3)"/>
+            <path d="M190 55 Q205 50 215 60 Q218 75 210 85 Q200 90 190 82 Q183 72 186 60Z" fill="rgba(80,140,200,0.35)"/>
+            <path d="M188 100 Q205 95 215 108 Q220 130 208 148 Q192 158 180 145 Q172 128 175 112Z" fill="rgba(80,140,200,0.3)"/>
+            <path d="M230 50 Q280 44 310 55 Q325 68 315 82 Q295 90 265 85 Q240 80 228 68Z" fill="rgba(80,140,200,0.35)"/>
+            <rect x="240" y="110" width="140" height="2" rx="1" fill="rgba(100,180,255,0.25)"/>
+            <rect x="240" y="125" width="100" height="2" rx="1" fill="rgba(100,180,255,0.2)"/>
+            <rect x="240" y="140" width="120" height="2" rx="1" fill="rgba(100,180,255,0.2)"/>
+            <rect x="240" y="155" width="80" height="2" rx="1" fill="rgba(100,180,255,0.15)"/>
+            <circle cx="100" cy="88" r="4" fill="rgba(184,92,56,0.8)"/>
+            <circle cx="105" cy="138" r="3" fill="rgba(184,92,56,0.7)"/>
+            <circle cx="200" cy="70" r="4" fill="rgba(184,92,56,0.8)"/>
+            <circle cx="265" cy="68" r="4" fill="rgba(184,92,56,0.75)"/>
+          </svg>
+          <span class="project-thumb-label">WWF · ArcGIS Online</span>
+        </div>
+        <div class="project-body">
+          <p class="project-type">Web GIS · Stakeholder Communication</p>
+          <h3 class="project-name">WWF Conservation StoryMap</h3>
+          <p class="project-desc">
+            Designed an interactive StoryMap for WWF using ArcGIS Online, incorporating live maps, dashboards, and embedded media to communicate organizational conservation data to hundreds of global stakeholders.
+          </p>
+          <div class="project-tools">
+            <span class="project-tool">ArcGIS Online</span>
+            <span class="project-tool">StoryMaps</span>
+            <span class="project-tool">Dashboard Design</span>
+          </div>
+          <a href="#" class="project-link">View project</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Addison Bugas</div>
+    <div class="footer-contact">
+      Berkeley, CA 94704<br>
+      <a href="mailto:addisonrbugas@berkeley.edu">addisonrbugas@berkeley.edu</a><br>
+      <a href="https://linkedin.com/in/addison-bugas" target="_blank">linkedin.com/in/addison-bugas</a>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  </script>
 </body>
 </html>
