@@ -1,331 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Addison Bugas — GIS Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --sage:    #7A9E7E;
-      --sage-lt: #B8CEBC;
-      --sage-dk: #3E5C42;
-      --sand:    #E8E0D0;
-      --sand-dk: #C9BEA8;
-      --bark:    #2C2118;
-      --bark-lt: #4A3828;
-      --cream:   #F7F3EC;
-      --white:   #FDFCFA;
-      --accent:  #B85C38;
-      --accent-lt: #D4896A;
-      --mono: 'DM Mono', monospace;
-      --serif: 'DM Serif Display', serif;
-      --sans: 'Instrument Sans', sans-serif;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--cream);
-      color: var(--bark);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 4rem;
-      background: var(--cream);
-      border-bottom: 1px solid var(--sand-dk);
-    }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--sage-dk);
-    }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--bark-lt);
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--sage-dk); }
-    
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding-top: 80px;
-    }
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 6rem 4rem 6rem 5rem;
-      background: var(--white);
-    }
-    .hero-eyebrow {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: 1.2rem;
-    }
-    .hero-name {
-      font-family: var(--serif);
-      font-size: clamp(3rem, 5vw, 5.5rem);
-      line-height: 1.05;
-      color: var(--bark);
-      margin-bottom: 0.5rem;
-    }
-    .hero-name em { font-style: italic; color: var(--sage-dk); }
-    .hero-subtitle {
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: 2rem;
-      text-transform: uppercase;
-    }
-    .hero-desc {
-      font-size: 1rem;
-      color: var(--bark-lt);
-      max-width: 440px;
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
-    }
-    .hero-cta {
-      display: inline-block;
-      background: var(--sage-dk);
-      color: var(--cream);
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 0.9rem 2rem;
-      border-radius: 2px;
-      transition: background 0.25s, transform 0.2s;
-      align-self: flex-start;
-    }
-    .hero-cta:hover { background: var(--bark); transform: translateY(-2px); }
-    .hero-right {
-      background: var(--sage-dk);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-right::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,0.04) 39px,rgba(255,255,255,0.04) 40px),
-                  repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,0.04) 39px,rgba(255,255,255,0.04) 40px);
-    }
-
-    /* SECTIONS */
-    section { padding: 6rem 5rem; }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: 0.8rem;
-    }
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 3.5vw, 3.2rem);
-      line-height: 1.1;
-      color: var(--bark);
-      margin-bottom: 3rem;
-    }
-
-    /* PROJECTS / GALLERY */
-    #projects { background: var(--bark); }
-    #projects .section-label { color: var(--sage-lt); }
-    #projects .section-title { color: var(--white); }
-
-    .project-featured {
-      background: var(--bark-lt);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      overflow: hidden;
-      margin-bottom: 4rem;
-      transition: border-color 0.25s;
-    }
-    .project-featured:hover { border-color: var(--sage); }
-    .project-featured-header {
-      padding: 2rem 2.5rem 1.2rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .project-type {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--sage-lt);
-      margin-bottom: 0.5rem;
-    }
-    .project-name {
-      font-family: var(--serif);
-      font-size: 1.6rem;
-      color: var(--white);
-      line-height: 1.2;
-      margin-bottom: 0.7rem;
-    }
-    .project-desc {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.75;
-      max-width: 850px;
-    }
-    .project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-    .project-tool {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.05em;
-      padding: 0.25rem 0.6rem;
-      border: 1px solid rgba(122,158,126,0.35);
-      border-radius: 2px;
-      color: var(--sage-lt);
-    }
-    .project-link-credit {
-      display: block;
-      margin-top: 1rem;
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--sage-lt);
-      text-decoration: none;
-      opacity: 0.8;
-    }
-    .project-link-credit:hover { text-decoration: underline; opacity: 1; }
-
-    .map-full-width {
-      width: 100%;
-      background: var(--bark);
-      display: flex;
-      justify-content: center;
-      padding: 0;
-    }
-    .map-full-width img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    footer {
-      background: var(--bark);
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 2.5rem 5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-name { font-family: var(--serif); font-size: 1.2rem; color: var(--white); }
-    .footer-contact {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--sage-lt);
-      text-align: right;
-    }
-
-    @media (max-width: 900px) {
-      nav { padding: 1rem 2rem; }
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      section { padding: 4rem 2rem; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-    }
-  </style>
-</head>
-<body>
-
-  <nav>
-    <span class="nav-logo">Addison Bugas</span>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Work</a></li>
-      <li><a href="mailto:addisonrbugas@berkeley.edu">Contact</a></li>
-    </ul>
-  </nav>
-
-  <div class="hero">
-    <div class="hero-left">
-      <p class="hero-eyebrow">GIS Portfolio · UC Berkeley 2026 Alum</p>
-      <h1 class="hero-name">Addison<br><em>Bugas</em></h1>
-      <p class="hero-subtitle">Geospatial Analysis · Cartography · Conservation</p>
-      <p class="hero-desc">
-        As a recent UC Berkeley graduate, I bring strong experience in GIS and remote sensing, supported by an honors thesis that used satellite imagery to analyze invasive species expansion.
-      </p>
-      <a href="#projects" class="hero-cta">View my work</a>
+<div class="project-featured fade-up">
+  <div class="project-featured-header">
+    <p class="project-type">Colocation Analysis · Spatial Equity · ArcGIS Pro</p>
+    <h3 class="project-name">Isolated Police Stops By Tract: New York City</h3>
+    <p class="project-desc">
+      Using colocation analysis, this project tested the police justification that pedestrian stops occur in neighborhoods with higher violent crime[cite: 32]. Stops were first classified using the Local Colocation Quotient (LCLQ) to identify those that were spatially and temporally isolated from nearby violent crime incidents[cite: 31, 32]. A new field was calculated via Arcade expression, flagging significantly isolated stops, then aggregated to census tracts using the Summarize Within tool to produce a value per tract[cite: 32]. Dark blue tracts represent areas where the majority of police stops had no proximate violent crime to justify them[cite: 32, 34]. A disparity analysis comparing those tracts to citywide averages revealed that, in areas where stops were least tied to crime, Black residents were stopped at higher rates relative to their share of the local population[cite: 32].
+    </p>
+    <div class="project-tools">
+      <span class="project-tool">ArcGIS Pro</span>
+      <span class="project-tool">LCLQ Analysis</span>
+      <span class="project-tool">Arcade Expressions</span>
+      <span class="project-tool">Spatial Disparity</span>
     </div>
-    <div class="hero-right"></div>
+    <p class="project-desc" style="margin-top: 1rem; font-size: 0.75rem;">
+      Credit this Esri tutorial: <a href="https://learn.arcgis.com/en/projects/examine-racial-disparities-in-police-stops/" style="color: var(--sage-lt); text-decoration: none;">Examine Racial Disparities in Police Stops</a>
+    </p>
   </div>
-
-  <section id="projects">
-    <div class="fade-up">
-      <p class="section-label">Work gallery</p>
-      <h2 class="section-title">Maps &amp; analyses</h2>
-    </div>
-
-    <div class="project-featured fade-up">
-      <div class="project-featured-header">
-        <p class="project-type">Colocation Analysis · Spatial Equity · ArcGIS Pro</p>
-        <h3 class="project-name">Isolated Police Stops By Tract: New York City</h3>
-        <p class="project-desc">
-          Using colocation analysis, this project tested the police justification that pedestrian stops occur in neighborhoods with higher violent crime. Stops were first classified using the Local Colocation Quotient (LCLQ) to identify those that were spatially and temporally isolated from nearby violent crime incidents. A new field was calculated via Arcade expression, flagging significantly isolated stops, then aggregated to census tracts using the Summarize Within tool to produce a value per tract. Dark blue tracts represent areas where the majority of police stops had no proximate violent crime to justify them. A disparity analysis comparing those tracts to citywide averages revealed that, in areas where stops were least tied to crime, Black residents were stopped at higher rates relative to their share of the local population.
+  
+  <div class="map-gallery">
+    <div class="map-panel">
+      <img src="PoliceStops.pdf" alt="Isolated Police Stops by Tract in New York City [cite: 2]">
+      <div class="map-caption">
+        <p class="map-caption-num">Figure 1.1</p>
+        <p class="map-caption-text">
+          Spatial distribution of percent isolated stops by census tract across the five boroughs[cite: 2, 35]. 
+          Darker blue indicates a higher percentage of stops occurring without proximate violent crime[cite: 32, 34].
         </p>
-        <div class="project-tools">
-          <span class="project-tool">ArcGIS Pro</span>
-          <span class="project-tool">LCLQ Analysis</span>
-          <span class="project-tool">Arcade Expressions</span>
-          <span class="project-tool">Disparity Analysis</span>
-        </div>
-        <a href="https://learn.arcgis.com/en/projects/examine-racial-disparities-in-police-stops/" class="project-link-credit" target="_blank">Credit: Esri Tutorial</a>
-      </div>
-      <div class="map-full-width">
-        <img src="PoliceStops.pdf" alt="Map of Isolated Police Stops by Tract in New York City">
       </div>
     </div>
+    </div>
+</div>
 
-    <div class="project-featured fade-up">
-      <div class="project-featured-header">
-        <p class="project-type">Spatial Analysis · Historical Cartography · ArcGIS Pro</p>
-        <h3 class="project-name">Cholera Death Cases Relative to Water Pumps</h3>
-        <p class="project-desc">
-          A two-part georeferenced study of John Snow's landmark 1854 Soho, London map. The first map plots individual cholera deaths and marks water pump locations across the district. The second applies the Thiessen polygons tool to divide the area into proximity zones for each pump.
-        </p>
-        <div class="project-tools">
-          <span class="project-tool">ArcGIS Pro</span>
-          <span class="project-tool">Georeferencing</span>
-          <span class="project-tool">Thiessen Polygons</span>
-          <span class="project-tool">Spatial Analysis</span>
-        </div>
+<div class="project-featured fade-up">
+  <div class="project-featured-header">
+    <p class="project-type">Spatial Analysis · Historical Cartography · ArcGIS Pro</p>
+    <h3 class="project-name">Cholera Death Cases Relative to Water Pumps</h3>
+    <p class="project-desc">
+      A two-part georeferenced study of John Snow's landmark 1854 Soho, London map. The first map plots individual cholera deaths and marks water pump locations across the district. The second applies the Thiessen polygons tool to divide the area into proximity zones for each pump — isolating the Broad Street pump as the likely catalyst of the outbreak.
+    </p>
+    <div class="project-tools">
+      <span class="project-tool">ArcGIS Pro</span>
+      <span class="project-tool">Georeferencing</span>
+      <span class="project-tool">Thiessen Polygons</span>
+      <span class="project-tool">Spatial Analysis</span>
+      <span class="project-tool">Cartographic Design</span>
+    </div>
+  </div>
+  <div class="map-gallery">
+    <div class="map-panel">
+      <img src="SnowMap1.jpg" alt="John Snow Death Map">
+      <div class="map-caption">
+        <p class="map-caption-num">Figure 2.1</p>
+        <p class="map-caption-text">Georeferenced point data representing cholera deaths in Soho.</p>
       </div>
     </div>
-  </section>
-
-  <footer>
-    <span class="footer-name">Addison Bugas</span>
-    <div class="footer-contact">
-      <a href="mailto:addisonrbugas@berkeley.edu">addisonrbugas@berkeley.edu</a>
+    <div class="map-panel">
+      <img src="SnowMap2.jpg" alt="Thiessen Polygons Map">
+      <div class="map-caption">
+        <p class="map-caption-num">Figure 2.2</p>
+        <p class="map-caption-text">Thiessen polygons defining pump service areas.</p>
+      </div>
     </div>
-  </footer>
-
-</body>
-</html>
+  </div>
+</div>
